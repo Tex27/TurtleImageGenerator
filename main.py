@@ -6,24 +6,43 @@ import time
 n = input("Nome da imagem: \n > ")
 o = input("Opções do desenho \n r - print rápida \n n - normal \n > ")
 
-img = Image.open(f"/media/sf_Document/GitHub/TurtleImageGenerator/imagens/{n}.png")
+img = Image.open(f"./TurtleImageGenerator/imagens/{n}.png")
 img = img.convert("RGBA")
 l, a = img.size
 
+
 msg = "\nAnalisando imagem"
-for i in range(2):
-    print(f"{msg} /")
-    time.sleep(1)
-    os.system("clear")
-    print(f"{msg} -")
-    time.sleep(1)
-    os.system("clear")
-    print(f"{msg} \\")
-    time.sleep(1)
-    os.system("clear")
-    print(f"{msg} |")
-    time.sleep(1)
-    os.system("clear")
+w = os.name
+if w == "nt":
+    for i in range(2):
+        print(f"{msg} /")
+        time.sleep(1)
+        os.system("cls")
+        print(f"{msg} -")
+        time.sleep(1)
+        os.system("cls")
+        print(f"{msg} \\")
+        time.sleep(1)
+        os.system("cls")
+        print(f"{msg} |")
+        time.sleep(1)
+        os.system("cls")
+else:
+    for i in range(2):
+        print(f"{msg} /")
+        time.sleep(1)
+        os.system("clear")
+        print(f"{msg} -")
+        time.sleep(1)
+        os.system("clear")
+        print(f"{msg} \\")
+        time.sleep(1)
+        os.system("clear")
+        print(f"{msg} |")
+        time.sleep(1)
+        os.system("clear")
+   
+
 
 time.sleep(1)
 print(f"Tamanho da imagem: {l}x{a}")
@@ -42,7 +61,7 @@ if o == "n":
             turtle.pendown()
             turtle.color(color)
             turtle.begin_fill()
-            turtle.dot(1)
+            turtle.dot(2)
             turtle.end_fill()
             turtle.penup()
             sum += 1
@@ -65,7 +84,7 @@ elif o == "r":
             turtle.pendown()
             turtle.color(color)
             turtle.begin_fill()
-            turtle.dot(1)
+            turtle.dot(2)
             turtle.end_fill()
             turtle.penup()
             sum += 1
