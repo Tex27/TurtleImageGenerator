@@ -5,42 +5,35 @@ import time
 
 def main():
     n = input("Nome da imagem: \n > ")
-    option = input("Opções do desenho \n r - print rápida \n n - normal \n > ")
+    escala = int(input("Escala: \n > "))
+    opcao = input("Opções do desenho \n r - print rápida \n n - normal \n > ")
 
 
-    # cenas da imagem, local onde está converter para RGB e extrair as dimensões em pixeis
     img = Image.open(f"{n}.png")
     img = img.convert("RGBA")
     l, a = img.size
 
-    #sistema para ver qual o sistema operativo para usar o comando clear
 
-    msg = "\nAnalisando imagem"
+    img = img.resize((l * escala, a * escala), Image.NEAREST)
+    l, a = img.size
+
     w = os.name
-    if w == "nt":
-        clear = "cls"
-    else:
-        clear = "clear"
+    clear = "cls" if w == "nt" else "clear"
 
 
-
-    # Criação da Imagem de maneira mais lenta mas mostrando o traçado
-    if option.lower() == "n":
-        carregar(msg, clear)
+    if opcao.lower() == "n":
         time.sleep(1)
         print(f"Tamanho da imagem: {l}x{a}")
         time.sleep(2.5)
         turtle.shape("classic")
         turtle.speed(0)
         turtle.penup()
-        desenhar(img, l, a)
-                
+        desenhar(img, l, a, escala)
+
         print("\nA tua bela obra de arte está feita!")
         turtle.done()
 
-    # Criação da Imagem de maneira mais rápida mas que apenas mostra a imagem após processar todos os pixeis
-    if option.lower() == "r":
-        carregar(msg, clear)
+    elif opcao.lower() == "r":
         time.sleep(1)
         print(f"Tamanho da imagem: {l}x{a}")
         time.sleep(2.5)
@@ -48,8 +41,8 @@ def main():
         turtle.speed(0)
         turtle.penup()
         turtle.tracer(0, 0)
-        desenhar(img, l, a)
-        
+        desenhar(img, l, a, escala)
+
         print("\nA tua bela obra de arte está feita!")
         turtle.update()
         turtle.done()
@@ -60,37 +53,49 @@ def main():
         os.system(clear)
         main()
 
-def desenhar(img, l, a):
-    sum = 0
+
+def desenhar(img, l, a, escala):
+    sum = 1
+    iL, iA = 0, 0
+
     for x in range(0, l):
+        iL += 1
         for y in range(0, a):
             px = img.getpixel((x, y))
             color = '#%02x%02x%02x' % (px[0], px[1], px[2])
-            turtle.setpos(x - 112, 112 - y)
-            turtle.pendown()
-            turtle.color(color)
-            turtle.begin_fill()
-            turtle.dot(2)
-            turtle.end_fill()
-            turtle.penup()
-            sum += 1
             print(f"{sum}º px, ({x}x{y}y): {px}")
+            pintar_pontos(escala, l, a, xOriginal = x, yOriginal = y, color = color)
+            sum += 1
+            iA += 1
+        iA = 0
+    iL = 0
     return
 
-def carregar(msg, clear):
-    #tem de ser com f string pq o os não aceita variáveis por si só n sei bem porquê, mas assim funfa
-        for i in range(2):
-            print(f"{msg} /")
-            time.sleep(1)
-            os.system(clear)
-            print(f"{msg} -")
-            time.sleep(1)
-            os.system(clear)
-            print(f"{msg} \\")
-            time.sleep(1)
-            os.system(clear)
-            print(f"{msg} |")
-            time.sleep(1)
-            os.system(clear)
-            return
+
+def get_square_coordinates(x, y, escala):
+    coordinates = []
+    for i in range(x, x + escala):
+        for j in range(y, y + escala):
+            coordinates.append((i, j))
+    return coordinates
+
+
+def pintar_pontos(escala, l, a, color, xOriginal, yOriginal):
+
+    coordenadasLista = get_square_coordinates(xOriginal, yOriginal, escala)
+
+    for cor in coordenadasLista:
+        x_scaled = cor[0]
+        y_scaled = cor[1]
+
+        turtle.setpos(x_scaled - l, a - y_scaled)
+        turtle.pendown()
+        turtle.color(color)
+        turtle.begin_fill()
+        turtle.dot(2)
+        turtle.end_fill()
+        turtle.penup()
+
+    return
+
 main()
