@@ -6,41 +6,35 @@ import time
 n = input("Nome da imagem: \n > ")
 o = input("Opções do desenho \n r - print rápida \n n - normal \n > ")
 
-img = Image.open(f"./TurtleImageGenerator/imagens/{n}.png")
+
+# cenas da imagem, local onde está converter para RGB e extrair as dimensões em pixeis
+img = Image.open(f"./imagens/{n}.png")
 img = img.convert("RGBA")
 l, a = img.size
 
+#sistema para ver qual o sistema operativo para usar o comando clear
 
 msg = "\nAnalisando imagem"
 w = os.name
 if w == "nt":
-    for i in range(2):
-        print(f"{msg} /")
-        time.sleep(1)
-        os.system("cls")
-        print(f"{msg} -")
-        time.sleep(1)
-        os.system("cls")
-        print(f"{msg} \\")
-        time.sleep(1)
-        os.system("cls")
-        print(f"{msg} |")
-        time.sleep(1)
-        os.system("cls")
+    clear = "cls"
 else:
-    for i in range(2):
-        print(f"{msg} /")
-        time.sleep(1)
-        os.system("clear")
-        print(f"{msg} -")
-        time.sleep(1)
-        os.system("clear")
-        print(f"{msg} \\")
-        time.sleep(1)
-        os.system("clear")
-        print(f"{msg} |")
-        time.sleep(1)
-        os.system("clear")
+    clear = "clear"
+
+#tem de ser com f string pq o os não aceita variáveis por si só (n sei bem porquê, mas assim funfa)
+for i in range(2):
+    print(f"{msg} /")
+    time.sleep(1)
+    os.system(f"{clear}")
+    print(f"{msg} -")
+    time.sleep(1)
+    os.system(f"{clear}")
+    print(f"{msg} \\")
+    time.sleep(1)
+    os.system(f"{clear}")
+    print(f"{msg} |")
+    time.sleep(1)
+    os.system(f"{clear}")
    
 
 
@@ -48,6 +42,7 @@ time.sleep(1)
 print(f"Tamanho da imagem: {l}x{a}")
 time.sleep(2.5)
 
+# Criação da Imagem de maneira mais lenta mas mostrando o traçado
 if o == "n":
     turtle.shape("classic")
     turtle.speed(0)
@@ -70,6 +65,7 @@ if o == "n":
     print("\nA tua bela obra de arte está feita!")
     turtle.done()
 
+# Criação da Imagem de maneira mais rápida mas que apenas mostra a imagem após processar todos os pixeis
 elif o == "r":
     turtle.shape("classic")
     turtle.speed(0)
