@@ -2,24 +2,76 @@ import os
 from PIL import Image
 import turtle
 import time
+import tkinter as tk
+from tkinter import filedialog
+
+def choose_image():
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename(
+        title="Selecione uma Imagem",
+        filetypes=[("Image Files", "*.png;*.jpg;*.jpeg;*.bmp;*.gif")]
+    )
+    if file_path:
+        print(f"Selecionou: {file_path}")
+    else:
+        print("Nenhuma Imagem selecionada.")
+    return file_path
 
 def main():
-    n = input("Nome da imagem: \n > ")
-    escala = int(input("Escala: \n > "))
-    opcao = input("Opções do desenho \n r - print rápida \n n - normal \n > ")
-
-
-    img = Image.open(f"{n}.png")
-    img = img.convert("RGBA")
-    l, a = img.size
-
-
-    img = img.resize((l * escala, a * escala), Image.NEAREST)
-    l, a = img.size
-
     w = os.name
     clear = "cls" if w == "nt" else "clear"
 
+    print("Escolha como quer selecionar a imagem")
+    print("1 - Escreva o nome da imagem (deve estar na pasta './imagens/')")
+    print("2 - Selecionar uma imagem via pasta")
+    
+    escolha = input("Opção: \n > ")
+    os.system(clear)
+    if escolha == "1":
+        n = input("Nome da imagem (sem extensão): \n > ")
+        image_path = f"./imagens/{n}.png"
+        os.system(clear)
+    elif escolha == "2":
+        image_path = choose_image()
+        if not image_path:
+            print("Nenhuma imagem selecionada...")
+            os.system(clear)
+            return
+    else:
+        print("\n---Opção inválida---")
+        os.system(clear)
+        return
+
+    escala = float(input("Escala (ex: 0.5 para reduzir ou 2 para aumentar): \n > "))
+    os.system(clear)
+    opcao = input("Opções do desenho \n r - print rápida \n n - normal \n > ")
+    os.system(clear)
+
+    for i in range(0, 3):
+        print("Analisando a Imagem... /")
+        time.sleep(0.5)
+        os.system(clear)
+        print("Analisando a Imagem... -")
+        time.sleep(0.5)
+        os.system(clear)
+        print("Analisando a Imagem... \\")
+        time.sleep(0.5)
+        os.system(clear)
+        print("Analisando a Imagem... |")
+        time.sleep(0.5)
+        os.system(clear)
+
+    try:
+        img = Image.open(image_path)
+        img = img.convert("RGBA")
+    except FileNotFoundError:
+        print(f"Imagem não encontrada: {image_path}")
+        return
+
+    l, a = img.size
+    img = img.resize((int(l * escala), int(a * escala)), Image.NEAREST)
+    l, a = img.size
 
     if opcao.lower() == "n":
         time.sleep(1)
@@ -53,48 +105,27 @@ def main():
         os.system(clear)
         main()
 
-
 def desenhar(img, l, a, escala):
     sum = 1
-    iL, iA = 0, 0
-
     for x in range(0, l):
-        iL += 1
         for y in range(0, a):
             px = img.getpixel((x, y))
             color = '#%02x%02x%02x' % (px[0], px[1], px[2])
             print(f"{sum}º px, ({x}x{y}y): {px}")
-            pintar_pontos(escala, l, a, xOriginal = x, yOriginal = y, color = color)
+            pintar_pontos(escala, l, a, xOriginal=x, yOriginal=y, color=color)
             sum += 1
-            iA += 1
-        iA = 0
-    iL = 0
     return
 
-
-def get_square_coordinates(x, y, escala):
-    coordinates = []
-    for i in range(x, x + escala):
-        for j in range(y, y + escala):
-            coordinates.append((i, j))
-    return coordinates
-
-
 def pintar_pontos(escala, l, a, color, xOriginal, yOriginal):
+    x_scaled = xOriginal * escala
+    y_scaled = yOriginal * escala
 
-    coordenadasLista = get_square_coordinates(xOriginal, yOriginal, escala)
-
-    for cor in coordenadasLista:
-        x_scaled = cor[0]
-        y_scaled = cor[1]
-
-        turtle.setpos(x_scaled - l, a - y_scaled)
-        turtle.pendown()
-        turtle.color(color)
-        turtle.begin_fill()
-        turtle.dot(2)
-        turtle.end_fill()
-        turtle.penup()
+    turtle.setpos(x_scaled - l / 2, a / 2 - y_scaled)
+    turtle.pendown()
+    turtle.color(color)
+    turtle.begin_fill()
+    turtle.dot(escala * 2)
+    turtle.penup()
 
     return
 
