@@ -45,7 +45,7 @@ def main():
 
     escala = float(input("Escala (ex: 0.5 para reduzir ou 2 para aumentar): \n > "))
     os.system(clear)
-    opcao = input("Opções do desenho \n r - print rápida \n n - normal \n > ")
+    opcao = input("Opções do desenho \n r - Print Rápida \n n - Normal \n > ")
     os.system(clear)
 
     for i in range(0, 3):
@@ -89,7 +89,6 @@ def main():
         time.sleep(1)
         print(f"Tamanho da imagem: {l}x{a}")
         time.sleep(2.5)
-        turtle.shape("classic")
         turtle.speed(0)
         turtle.penup()
         turtle.tracer(0, 0)
