@@ -4,6 +4,8 @@ import turtle
 import time
 import tkinter as tk
 from tkinter import filedialog
+from tqdm import tqdm
+
 
 def choose_image():
     root = tk.Tk()
@@ -45,7 +47,7 @@ def main():
 
     escala = float(input("Escala (ex: 0.5 para reduzir ou 2 para aumentar): \n > "))
     os.system(clear)
-    opcao = input("Opções do desenho \n r - Print Rápida \n n - Normal \n > ")
+    opcao = input("Opções do desenho \n r - Print Rápida \n n - Print Normal \n > ")
     os.system(clear)
 
     for i in range(0, 3):
@@ -82,6 +84,7 @@ def main():
         turtle.penup()
         desenhar(img, l, a, escala)
 
+
         print("\nA tua bela obra de arte está feita!")
         turtle.done()
 
@@ -93,6 +96,7 @@ def main():
         turtle.penup()
         turtle.tracer(0, 0)
         desenhar(img, l, a, escala)
+
 
         print("\nA tua bela obra de arte está feita!")
         turtle.update()
@@ -106,14 +110,20 @@ def main():
 
 def desenhar(img, l, a, escala):
     sum = 1
-    for x in range(0, l):
-        for y in range(0, a):
-            px = img.getpixel((x, y))
-            color = '#%02x%02x%02x' % (px[0], px[1], px[2])
-            print(f"{sum}º px, ({x}x{y}y): {px}")
-            pintar_pontos(escala, l, a, xOriginal=x, yOriginal=y, color=color)
-            sum += 1
-    return
+    total = l * a
+    pixeis_processados = 0
+    with tqdm(total=total, desc="Progresso", unit=" px") as progress_bar:
+        for x in range(0, l):
+            for y in range(0, a):
+                px = img.getpixel((x, y))
+                color = '#%02x%02x%02x' % (px[0], px[1], px[2])
+                tqdm.write(f"{sum}º px, ({x}x{y}y): {px}")
+                pintar_pontos(escala, l, a, xOriginal=x, yOriginal=y, color=color)
+                sum += 1
+
+                pixeis_processados += 1
+                progress_bar.update(1)
+        return
 
 def pintar_pontos(escala, l, a, color, xOriginal, yOriginal):
     x_scaled = xOriginal * escala
