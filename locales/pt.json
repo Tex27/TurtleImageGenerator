@@ -1,0 +1,18 @@
+{
+    "selec_image": "Selecione uma Imagem",
+    "selec": "Selecionou",
+    "image_not_found": "Nenhuma Imagem Selecionada...",
+    "choice": "Escolha como quer selecionar a imagem",
+    "choice1": "Escreva o nome da imagem (deve estar na pasta './imagens/')",
+    "choice2": "Selecionar uma imagem via pasta",
+    "choice3": "Opção",
+    "input_image": "Nome da imagem (sem extensão)",
+    "invalid_choice": "---Opção inválida---",
+    "scale": "Escala (ex: 0.5 para reduzir ou 2 para aumentar)",
+    "print_speed": "Opções do desenho \n r - Print Rápida \n n - Print Normal",
+    "analyze": "Analisando a Imagem",
+    "image_not_found_path": "Imagem não encontrada",
+    "image_size": "Tamanho da Imagem",
+    "finish": "\nA tua bela obra de arte está feita",
+    "progress": "Progresso"
+}

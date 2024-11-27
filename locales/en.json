@@ -1,0 +1,18 @@
+{
+    "selec_image": "Select an Image",
+    "selec": "You've Selected: ",
+    "image_not_found": "No Image Selected...",
+    "choice": "Choose How You Want to Select the Image",
+    "choice1": "Type the Name of the Image (Should be in the Directory: './imagens/')",
+    "choice2": "Select the Image via File Explorer",
+    "choice3": "Option",
+    "input_image": "Name of the Image (Without the Extension Name)",
+    "invalid_choice": "---Invalid Option---",
+    "scale": "Scale (ex: 0.5 to shrink or 2 to size up)",
+    "print_speed": "Drawing Options \n r - Fast Print \n n - Normal Print",
+    "analyze": "Analyzing the Image",
+    "image_not_found_path": "Image not Found",
+    "size": "Image Size",
+    "finish": "\nYou Wonderfull Work of Art is Done!",
+    "progress": "Progress"
+}
